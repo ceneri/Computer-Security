@@ -1,0 +1,12 @@
+First I tought that we needed to figure out how the encryption works
+
+Then I readying key line in instruction, i realized that we can use crypt to encrypt out briute force combos annd then all we need is compare encrypted result
+Then I tought that I needed to use FILE but when looking at provided code, functions already have parameters
+Inside the fucntion 1:
+	Primer paso, pasa la sal
+
+
+***TIPS***
+COmbinations first aaa, aab, aac, it will work in an hour
+to pass speedy you can use all cores, or singlethread but use special combinbatronics algorithm
+
