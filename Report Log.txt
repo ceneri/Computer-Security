@@ -1,9 +1,15 @@
-First I tought that we needed to figure out how the encryption works
+First I thought that we needed to figure out how the encryption works
 
 Then I readying key line in instruction, i realized that we can use crypt to encrypt out briute force combos annd then all we need is compare encrypted result
 Then I tought that I needed to use FILE but when looking at provided code, functions already have parameters
 Inside the fucntion 1:
 	Primer paso, pasa la sal
+    
+Next step was to create an array with all the alphabet, to make it easier i only used integers
+Then my plan was to have four bytes, one representing the each "digit" and thatw oukld match to the index of alphatet meaning a character
+Afetr failling i then opted for following Harrisons advice and instead oppullate at leat the 2 digit combos
+Once this was done i had to come up witha way to do eitehr 3 vs 4 character long
+then figuring out how to properly compare stirngs
 
 
 ***TIPS***

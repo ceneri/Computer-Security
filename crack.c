@@ -16,11 +16,10 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
 
 //https://stackoverflow.com/questions/5935933/dynamically-create-an-array-of-strings-with-malloc
 ///****************malloc double digits****************
-char** populateTwoCharCombos(void) { 
+char** populateTwoCharCombos(int numberOfBasicCombos) { 
     
     char **basicCombos;
     int BASIC_COMBO_LEN = 2;
-    int numberOfBasicCombos = sizeof(alphabet) * sizeof(alphabet);
     
     basicCombos = malloc(numberOfBasicCombos * sizeof(char*));
     
@@ -51,136 +50,75 @@ char** populateTwoCharCombos(void) {
  * given the encrypted password CRYPTPASSWD.
  */
 void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
-    printf("Squidward: %s\n", cryptPasswd);
     
-    //Get salt
+    //Initialize binary semaphore
+    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
+    sem_t lock;
+    sem_init(&lock, 0, 1);
+    
+    //Obtain salt from password/user name salt
     char salt[3];
     strncpy(salt, cryptPasswd, 2);
     salt[2] = '\0';
     
-    printf("Salty Salt: %s\n", salt );
-    printf("Squidward: %s\n", cryptPasswd);
+    //
+    char potentialPasswd[4+1];
+    potentialPasswd[4] = '\0';
     
-    //combos
-    int alpha_index[] = {0,0,0,0}; /* Default to 00..0 up to pwlen 0's */
-    
-    char combo[pwlen+1];
-    combo[pwlen] = '\0';
-    
-    
-    /******************************************
-    a_index to combo ->
-    */
-    for (int i = 0; i < pwlen; i++){
-        combo[i] = alphabet[alpha_index[i]];
-    }
-    //printf("Combo: %s\n", combo);
-    //**************************************
-    
-    //printf("Alpha_Index: %d\n", alphabet[i]);
-    
-    
-    for (int char_pos = pwlen-1; char_pos > -1; char_pos--){
-        
-        for (int i = 0; i < 62; i++){
-            
-            //get possible combo
-            alpha_index[char_pos] = i;
-             /******************************************
-    a_index to combo ->
-    */
-    /*for (int i = 0; i < pwlen; i++){
-        combo[i] = alphabet[alpha_index[i]];
-    }
-    printf("Combo: %s\n", combo);*/
-    //**************************************
-        }
-        
-    }
-    
-    
-    //https://stackoverflow.com/questions/5935933/dynamically-create-an-array-of-strings-with-malloc
-    ///****************malloc double digits****************
-    /*int ID_LEN = 2;
-    int numberOfBasicCombos = 62*62;
-    char **basicCombos;
-
-    basicCombos = malloc(numberOfBasicCombos * sizeof(char*));
-    
-    for (int i = 0; i < numberOfBasicCombos; i++){
-        basicCombos[i] = malloc((ID_LEN+1) * sizeof(char));  
-        basicCombos[i][ID_LEN] = '\0';      
-    }
-    
-    int index = 0;
-    for (int i = 0; i < 62; i++){
-        for (int j = 0; j < 62; j++){
-            
-            basicCombos[index][0] = alphabet[i];
-            basicCombos[index][1] = alphabet[j];
-            
-            printf("Combo: %s\n", basicCombos[index]);
-            
-            index++;
-        }
-    }*/
-    
-    //*******
-    
+    //Populate Combos
+    sem_wait(&lock);
     char **basicCombos2;
-    
-    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
-    sem_t s;
-    sem_init(&s, 0, 1);
-    
-    sem_wait(&s);
-    basicCombos2 = populateTwoCharCombos();
-    sem_post(&s);
-    
-    /*sem_wait(&s);
-    printf("Combo999: %s\n", basicCombos2[3400]);
-    sem_post(&s);*/
-    
-    ///**************rprpprpprprrprpr
-    char comboS[4+1];
-    comboS[4] = '\0';
-    
     int numberOfTwoCharCombos = sizeof(alphabet) * sizeof(alphabet);
+    basicCombos2 = populateTwoCharCombos(numberOfTwoCharCombos);
+    sem_post(&lock);
     
-    sem_wait(&s);
+    
+    //Brute Force 
+    sem_wait(&lock);
+    
+    bool onlyThreeChars = (pwlen == 3);
+
+    int threeCharIndices[] = {0,1,2,3};
+    int fourCharIndices[] = {1,2,3,4};
+    
     
     for (int k = 0; k < sizeof(alphabet); k++){
         
-        if ( pwlen == 3 ){
+        potentialPasswd[0] = alphabet[k];
+        int *charIndices = fourCharIndices;
+        
+        if ( onlyThreeChars ){
             k = sizeof(alphabet);
-            *comboS = &comboS + 1;
-        } else {
-            comboS[0] = alphabet[k];
-        }
+            (*potentialPasswd)++;
+            
+            charIndices = threeCharIndices;
+        } 
     
         for (int j = 0; j < sizeof(alphabet); j++){
             
-            comboS[1] = alphabet[j];
+            potentialPasswd[charIndices[0]] = alphabet[j];
         
             for (int i = 0; i < numberOfTwoCharCombos; i++){
-                comboS[2] = basicCombos2[i][0];
-                comboS[3] = basicCombos2[i][1];
+                potentialPasswd[charIndices[1]] = basicCombos2[i][0];
+                potentialPasswd[charIndices[2]] = basicCombos2[i][1];
                 
-                bool found = strcmp(cryptPasswd, crypt(comboS, salt)) == 0;
+                potentialPasswd[charIndices[3]] = '\0';
+                
+                //printf("ComboSS: %s \n", potentialPasswd);
+                
+                bool found = strcmp(cryptPasswd, crypt(potentialPasswd, salt)) == 0;
                 
                 if ( found ){
-                    strcpy(passwd, comboS);
+                    strcpy(passwd, potentialPasswd);
                     printf("Password: %s ", passwd);
-                    printf("ComboSS: %s \n", comboS);
+                    printf("ComboSS: %s \n", potentialPasswd);
                     return;
                 }
-                //printf("ComboSS: %s \n", comboS);
-                //printf("Crypt: %s\n", crypt(comboS, salt) );
             }
         }
     }
 
-    sem_post(&s);
+    sem_post(&lock);
 }
 
 /*
