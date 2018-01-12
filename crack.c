@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <crypt.h>
 #include <semaphore.h>
@@ -12,18 +13,20 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
                     
                     
                     
-char** populateTwoCharCombos(void) { 
-    //https://stackoverflow.com/questions/5935933/dynamically-create-an-array-of-strings-with-malloc
-    ///****************malloc double digits****************
-    int ID_LEN = 2;
-    int numberOfBasicCombos = 62*62;
-    char **basicCombos;
 
+//https://stackoverflow.com/questions/5935933/dynamically-create-an-array-of-strings-with-malloc
+///****************malloc double digits****************
+char** populateTwoCharCombos(void) { 
+    
+    char **basicCombos;
+    int BASIC_COMBO_LEN = 2;
+    int numberOfBasicCombos = sizeof(alphabet) * sizeof(alphabet);
+    
     basicCombos = malloc(numberOfBasicCombos * sizeof(char*));
     
     for (int i = 0; i < numberOfBasicCombos; i++){
-        basicCombos[i] = malloc((ID_LEN+1) * sizeof(char));  
-        basicCombos[i][ID_LEN] = '\0';      
+        basicCombos[i] = malloc((BASIC_COMBO_LEN+1) * sizeof(char));  
+        basicCombos[i][BASIC_COMBO_LEN] = '\0';      
     }
     
     int index = 0;
@@ -33,7 +36,7 @@ char** populateTwoCharCombos(void) {
             basicCombos[index][0] = alphabet[i];
             basicCombos[index][1] = alphabet[j];
             
-            printf("Combo2: %s\n", basicCombos[index]);
+            //printf("Combo2: %s\n", basicCombos[index]);
             
             index++;
         }
@@ -58,12 +61,6 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
     printf("Salty Salt: %s\n", salt );
     printf("Squidward: %s\n", cryptPasswd);
     
-    //int alphabet[62];
-    //Create Array of chars
-    for (int i = 0; i < 62; i++){
-        printf("Chars: %c\n", alphabet[i]);
-    }
-    
     //combos
     int alpha_index[] = {0,0,0,0}; /* Default to 00..0 up to pwlen 0's */
     
@@ -77,7 +74,7 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
     for (int i = 0; i < pwlen; i++){
         combo[i] = alphabet[alpha_index[i]];
     }
-    printf("Combo: %s\n", combo);
+    //printf("Combo: %s\n", combo);
     //**************************************
     
     //printf("Alpha_Index: %d\n", alphabet[i]);
@@ -132,6 +129,7 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
     
     char **basicCombos2;
     
+    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
     sem_t s;
     sem_init(&s, 0, 1);
     
@@ -139,10 +137,50 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
     basicCombos2 = populateTwoCharCombos();
     sem_post(&s);
     
-    sem_wait(&s);
+    /*sem_wait(&s);
     printf("Combo999: %s\n", basicCombos2[3400]);
-    sem_post(&s);
+    sem_post(&s);*/
     
+    ///**************rprpprpprprrprpr
+    char comboS[4+1];
+    comboS[4] = '\0';
+    
+    int numberOfTwoCharCombos = sizeof(alphabet) * sizeof(alphabet);
+    
+    sem_wait(&s);
+    
+    for (int k = 0; k < sizeof(alphabet); k++){
+        
+        if ( pwlen == 3 ){
+            k = sizeof(alphabet);
+            *comboS = &comboS + 1;
+        } else {
+            comboS[0] = alphabet[k];
+        }
+    
+        for (int j = 0; j < sizeof(alphabet); j++){
+            
+            comboS[1] = alphabet[j];
+        
+            for (int i = 0; i < numberOfTwoCharCombos; i++){
+                comboS[2] = basicCombos2[i][0];
+                comboS[3] = basicCombos2[i][1];
+                
+                bool found = strcmp(cryptPasswd, crypt(comboS, salt)) == 0;
+                
+                if ( found ){
+                    strcpy(passwd, comboS);
+                    printf("Password: %s ", passwd);
+                    printf("ComboSS: %s \n", comboS);
+                    return;
+                }
+                //printf("ComboSS: %s \n", comboS);
+                //printf("Crypt: %s\n", crypt(comboS, salt) );
+            }
+        }
+    }
+
+    sem_post(&s);
 }
 
 /*
