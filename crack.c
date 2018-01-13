@@ -12,6 +12,18 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
                     117,118,119,120,121,122};
                     
   
+  
+  
+ //https://stackoverflow.com/questions/23436669/how-to-free-an-array-of-char-pointer
+ void freeArrayElementsOnly(char** array, int count)
+{
+    int i;
+
+    for ( i = 0; array[i]; i++ )
+        free( array[i] );
+
+    //free( array );
+}
 
 /**
  * Returns the number of lines in the file at path
@@ -82,7 +94,7 @@ char** getCryptPasswds(char *fname, int numUsers) {
     for (int i = 0; fgets(line, 64, fin) != NULL; i++) {
         strtok(line, ":");
         sprintf(cPasswords[i], "%s", strtok(strtok(NULL, ":"), "\n"));
-        printf("Password: %s \n", cPasswords[i]);
+        //printf("Password: %s \n", cPasswords[i]);
         if ((int) strlen(cPasswords[i]) != 13) {
             printf("Password: %s \n", cPasswords[i]);
             printf("No: %d \n", (int) strlen(cPasswords[i]));
@@ -93,6 +105,23 @@ char** getCryptPasswds(char *fname, int numUsers) {
     fclose(fin);
     
     return cPasswords;
+}
+
+char** getSalts(char **cryptPasswds, int numUsers) { 
+
+     
+    char **salts = malloc(numUsers * sizeof (char*));
+    for (int i = 0; i < numUsers; i++){
+        salts[i] = malloc( 3 * sizeof (char));
+        salts[i][2] = '\0';
+    }
+
+    for (int i = 0; i < numUsers; i++){
+        strncpy(salts[i], cryptPasswds[i], 2);
+        salts[i][2] = '\0';
+    }
+    
+    return salts;
 }                  
                     
 
@@ -192,14 +221,24 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
     char **cryptPasswds;
     cryptPasswds = getCryptPasswds(fname, numUsers);
     
-    for (int i =0; i < numUsers; i++){
-        printf("Password: %s \n", cryptPasswds[i]);
+    for (int i = 0; i < numUsers; i++){
+        printf("Encrypted Password: %s \n", cryptPasswds[i]);
     }
     
-    //Obtain salt from password/user name salt
-    /*char *salt[3];
-    strncpy(salt, cryptPasswd, 2);
-    salt[2] = '\0';
+    //Get salts
+    char **c_salts;
+    c_salts = getSalts(cryptPasswds, numUsers);
+    
+    for (int i = 0; i < numUsers; i++){
+        printf("Salts: %s \n", c_salts[i]);
+    }
+    
+    //Empty array of cracked passwords(Later could optimize to stop checking for found ones)
+    char **crackedPasswds = malloc(numUsers * sizeof (char*));
+    for (int i = 0; i < numUsers; i++){
+        crackedPasswds[i] = malloc( 5 * sizeof (char));
+        crackedPasswds[i][4] = '\0';
+    }
     
     //Account for null at end of string
     char potentialPasswd[5];
@@ -234,6 +273,13 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
             (*potentialPasswd)++;       //Remove first character from string
             
             charIndices = threeCharIndices;     //New indexes
+            
+            freeArrayElementsOnly(crackedPasswds, numUsers);
+            for (int i = 0; i < numUsers; i++){
+                crackedPasswds[i] = malloc( 4 * sizeof (char));
+                crackedPasswds[i][3] = '\0';
+            }
+            
         } 
     
         for (int j = 0; j < sizeof(alphabet); j++){
@@ -247,20 +293,29 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
                 potentialPasswd[charIndices[2]] = basicCombos[i][1];
                 
                 potentialPasswd[charIndices[3]] = '\0';
+                //printf("ComboSS: %s \n", potentialPasswd);
                 
                 //Check if password matches
-                bool found = strcmp(cryptPasswd, crypt(potentialPasswd, salt)) == 0;
-                if ( found ){
-                    strcpy(passwd, potentialPasswd);
-                    //printf("Password: %s ", passwd);
-                    //printf("ComboSS: %s \n", potentialPasswd);
-                    return;
+                bool found;
+                for (int i = 0; i < numUsers; i++){
+                    found = strcmp(cryptPasswds[i], crypt(potentialPasswd, c_salts[i])) == 0;
+                    
+                    if ( found ){
+                        strcpy(passwds[i], potentialPasswd);
+                        //printf("Password: %s ", passwd);
+                        printf("Password: %s \n", passwds[i]);
+                        //return;
+                    }
                 }
+                
+                
             }
         }
     }
+    
+    //(*passwds) = (*crackedPasswds);
 
-    sem_post(&lock);*/
+    sem_post(&lock);
 
 } 
 
