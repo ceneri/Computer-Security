@@ -16,3 +16,7 @@ then figuring out how to properly compare stirngs
 COmbinations first aaa, aab, aac, it will work in an hour
 to pass speedy you can use all cores, or singlethread but use special combinbatronics algorithm
 
+wanted to use pthread but instead now using fork()
+went back to pthrea dbecause processes finish before the otehr ending the test
+extensive issue implementhing threads
+

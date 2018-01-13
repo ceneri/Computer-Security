@@ -4,7 +4,15 @@
 #include <stdbool.h>
 #include <string.h>
 #include <crypt.h>
+
 #include <semaphore.h>
+#include <pthread.h>
+
+#include <unistd.h>
+
+#include <sys/types.h>
+#include <signal.h>
+
 
 char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
                     65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
@@ -15,7 +23,7 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
   
   
  //https://stackoverflow.com/questions/23436669/how-to-free-an-array-of-char-pointer
- void freeArrayElementsOnly(char** array, int count)
+ /*void freeArrayElementsOnly(char** array, int count)
 {
     int i;
 
@@ -23,7 +31,7 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
         free( array[i] );
 
     //free( array );
-}
+}*/
 
 /**
  * Returns the number of lines in the file at path
@@ -32,6 +40,7 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
  * https://stackoverflow.com/questions/12733105
  */
 int countLinesInFile(char *fname) {
+    printf("lolol\n");
     FILE *fp = fopen(fname, "r");
     int lines = -1;
     if (fp) {
@@ -203,6 +212,9 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
     sem_post(&lock);
 }
 
+
+
+
 /*
  * Find the plain-text passwords PASSWDS of length PWLEN for the users found
  * in the old-style /etc/passwd format file at pathe FNAME.
@@ -231,13 +243,6 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
     
     for (int i = 0; i < numUsers; i++){
         printf("Salts: %s \n", c_salts[i]);
-    }
-    
-    //Empty array of cracked passwords(Later could optimize to stop checking for found ones)
-    char **crackedPasswds = malloc(numUsers * sizeof (char*));
-    for (int i = 0; i < numUsers; i++){
-        crackedPasswds[i] = malloc( 5 * sizeof (char));
-        crackedPasswds[i][4] = '\0';
     }
     
     //Account for null at end of string
@@ -274,11 +279,6 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
             
             charIndices = threeCharIndices;     //New indexes
             
-            freeArrayElementsOnly(crackedPasswds, numUsers);
-            for (int i = 0; i < numUsers; i++){
-                crackedPasswds[i] = malloc( 4 * sizeof (char));
-                crackedPasswds[i][3] = '\0';
-            }
             
         } 
     
@@ -312,18 +312,176 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
             }
         }
     }
-    
-    //(*passwds) = (*crackedPasswds);
 
     sem_post(&lock);
 
 } 
 
+//****************
+    //https://stackoverflow.com/questions/1352749/multiple-arguments-to-function-called-by-pthread-create
+    //https://courses.engr.illinois.edu/cs241/fa2010/ppt/10-pthread-examples.pdf
+    struct thread_data {
+        //int start_indx;
+        //int end_indx;
+        char *fname;
+        //int pwlen;
+        //char **passwds;
+        
+    };
+
+    
+
+//https://stackoverflow.com/questions/1352749/multiple-arguments-to-function-called-by-pthread-create
+void *brute_force_func( void *arguments){
+    
+    //!!beter to just use filename once but in any case put it in sempahore
+    
+    //Initialize binary semaphore
+    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
+    //sem_t lock;
+    //sem_init(&lock, 0, 1);
+    
+    printf("C-1\n");
+    
+    struct thread_data *args;
+    args = (struct thread_data*) arguments;
+
+    printf("C\n");
+    
+    //numusers
+    printf("File Name: %s \n", args->fname);
+    int numUsers = countLinesInFile(args->fname);
+    
+    printf("numUsers = %d \n", numUsers);
+    
+    //Get encrypted passwords
+    /*char **cryptPasswds;
+    cryptPasswds = getCryptPasswds(args->fname, numUsers);
+    
+    for (int i = 0; i < numUsers; i++){
+        printf("Encrypted Password: %s \n", cryptPasswds[i]);
+    }
+    
+    //Get salts
+    char **c_salts;
+    c_salts = getSalts(cryptPasswds, numUsers);
+    
+    for (int i = 0; i < numUsers; i++){
+        printf("Salts: %s \n", c_salts[i]);
+    }
+    
+    //Account for null at end of string
+    char potentialPasswd[5];
+    potentialPasswd[4] = '\0';
+    
+    printf("D\n");
+    
+    //Populate Combos
+    sem_wait(&lock);
+    char **basicCombos;
+    int numberOfTwoCharCombos = sizeof(alphabet) * sizeof(alphabet);
+    basicCombos = populateTwoCharCombos(numberOfTwoCharCombos);
+    sem_post(&lock);
+    
+    //Indexes depending on password size
+    int threeCharIndices[] = {0,1,2,3};
+    int fourCharIndices[] = {1,2,3,4};
+    
+    bool onlyThreeChars = (args->pwlen == 3);
+    
+    printf("E\n");
+
+    for ( int k = args->start_indx; k < args->end_indx; k++){
+        
+        //First character
+        potentialPasswd[0] = alphabet[k];
+        //Default
+        int *charIndices = fourCharIndices;
+        
+        printf("F\n");
+        
+        
+        if ( onlyThreeChars ){
+            k = sizeof(alphabet);       //Main loop will only run once
+            (*potentialPasswd)++;       //Remove first character from string
+            
+            charIndices = threeCharIndices;     //New indexes
+            
+            
+        } 
+    
+        for (int j = 0; j < sizeof(alphabet); j++){
+            
+            //Second character
+            potentialPasswd[charIndices[0]] = alphabet[j];
+        
+            for (int i = 0; i < numberOfTwoCharCombos; i++){
+                //Third and Fourth characters
+                potentialPasswd[charIndices[1]] = basicCombos[i][0];
+                potentialPasswd[charIndices[2]] = basicCombos[i][1];
+                
+                potentialPasswd[charIndices[3]] = '\0';
+                printf("ComboSS: %s \n", potentialPasswd);
+                
+                //Check if password matches
+                bool found;
+                for (int i = 0; i < numUsers; i++){
+                    found = strcmp(cryptPasswds[i], crypt(potentialPasswd, c_salts[i])) == 0;
+                    
+                    if ( found ){
+                        strcpy(args->passwds[i], potentialPasswd);
+                        //printf("Password: %s ", passwd);
+                        //!!need to pass a global semaphore here
+                        printf("Password: %s \n", args->passwds[i]);
+                        //return;
+                    }
+                }
+                
+                
+            }
+        }
+        
+        
+        
+    }*/
+
+    
+}
+
 /*
  * Find the plain-text passwords PASSWDS of length PWLEN for the users found
  * in the old-style /etc/passwd format file at pathe FNAME.
  */
-void crackSpeedy(char *fname, int pwlen, char **passwds) { }
+void crackSpeedy(char *fname, int pwlen, char **passwds) { 
+    pthread_t  th1/*, th2*/;
+    
+    //struct arg_struct t_args1;
+    
+    printf("A\n");
+    
+    //https://stackoverflow.com/questions/9914049/difficulty-passing-struct-through-pthread-create
+    struct thread_data *t_args1 = /*(struct thread_data*)*/ malloc(sizeof(struct thread_data));
+    printf("File Name: %s \n", fname);
+    t_args1->fname = fname;
+    /*t_args1->pwlen = pwlen;
+    t_args1->passwds = passwds;
+    t_args1->start_indx = 0;
+    t_args1->end_indx = 31;*/
+    
+    printf("B\n");
+    
+    (void) pthread_create(&th1, NULL, brute_force_func, (void *)t_args1);
+    
+    printf("B.1\n");
+    
+    //(void) pthread_create(&th2, NULL, brute_force_func, &sb2);
+    
+    (void) pthread_join((pthread_t)th1, NULL);
+    //(void) pthread_join(th2, NULL);
+    
+    printf("B.2\n");
+
+}
 
 /*
  * Find the plain-text password PASSWD of length PWLEN for the user USERNAME 
