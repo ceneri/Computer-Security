@@ -353,9 +353,9 @@ void *brute_force_func( void *arguments){
     cryptPasswds = getCryptPasswds(args->fname, args->numUsers);
     //sem_post(&args->t_lock);
     
-    for (int i = 0; i < args->numUsers; i++){
+    /*for (int i = 0; i < args->numUsers; i++){
         printf("Encrypted Password: %s \n", cryptPasswds[i]);
-    }
+    }*/
     
     //Get salts
     //sem_wait(&args->t_lock);
@@ -363,9 +363,9 @@ void *brute_force_func( void *arguments){
     c_salts = getSalts(cryptPasswds, args->numUsers);
     //sem_post(&args->t_lock);
     
-    for (int i = 0; i < args->numUsers; i++){
+    /*for (int i = 0; i < args->numUsers; i++){
         printf("Salts: %s \n", c_salts[i]);
-    }
+    }*/
     
     //Account for null at end of string
     char potentialPasswd[5];
@@ -461,118 +461,52 @@ void *brute_force_func( void *arguments){
  * in the old-style /etc/passwd format file at pathe FNAME.
  */
 void crackSpeedy(char *fname, int pwlen, char **passwds) { 
-    pthread_t  th1, th2, th3, th4, th5, th6;
+
+    int THREADS = 6;
     
-    //struct arg_struct t_args1;
+    char thread_indexes[] = {0,11,22,32,42,52,62};
     
     sem_t lock;
     sem_init(&lock, 0, 1);
     
     int numUsers = countLinesInFile(fname);
+
+    //http://cs.umw.edu/~finlayson/class/fall16/cpsc425/notes/04-pthreads.html
+    /* an array of threads */
+    pthread_t  th1, th2, th3, th4, th5, th6;
+    pthread_t threads[THREADS];
     
     printf("A\n");
     
-    //https://stackoverflow.com/questions/9914049/difficulty-passing-struct-through-pthread-create
-    struct thread_data *t_args1 = /*(struct thread_data*)*/ malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args1->fname = fname;
-    t_args1->pwlen = pwlen;
-    t_args1->passwds = passwds;
-    t_args1->start_indx = 0;
-    t_args1->end_indx = 11;
-    //t_args1->cryptPasswds = cryptPasswds;
-    t_args1->numUsers = numUsers;
-    t_args1->t_lock = lock;
+    struct thread_data tArguments[THREADS];
     
-    
+    int thread_i = 0;
+    for (int a = 0; a < THREADS; a++) {
+        tArguments[a].fname = fname;
+        tArguments[a].pwlen = pwlen;
+        tArguments[a].passwds = passwds;
+        //t_args1->cryptPasswds = cryptPasswds;
+        tArguments[a].numUsers = numUsers;
+        tArguments[a].t_lock = lock;
+        
+        tArguments[a].start_indx = thread_indexes[thread_i];
+        tArguments[a].end_indx = thread_indexes[++thread_i];;
+        
+    }
+
     printf("B\n");
-    
-    (void) pthread_create(&th1, NULL, brute_force_func, (void *)t_args1);
-    
-    printf("B.1\n");
-    
-    struct thread_data *t_args2 = malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args2->fname = fname;
-    t_args2->pwlen = pwlen;
-    t_args2->passwds = passwds;
-    t_args2->start_indx = 11;
-    t_args2->end_indx = 22;
-    //t_args2->cryptPasswds = cryptPasswds;
-    t_args2->numUsers = numUsers;
-    t_args2->t_lock = lock;
-    
-    (void) pthread_create(&th2, NULL, brute_force_func, (void *)t_args2);
-    
-    //*******
-    
-    struct thread_data *t_args3 = malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args3->fname = fname;
-    t_args3->pwlen = pwlen;
-    t_args3->passwds = passwds;
-    t_args3->start_indx = 22;
-    t_args3->end_indx = 32;
-    //t_args3->cryptPasswds = cryptPasswds;
-    t_args3->numUsers = numUsers;
-    t_args3->t_lock = lock;
-    
-    (void) pthread_create(&th3, NULL, brute_force_func, (void *)t_args3);
-    
-    //*******
-    
-    struct thread_data *t_args4 =  malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args4->fname = fname;
-    t_args4->pwlen = pwlen;
-    t_args4->passwds = passwds;
-    t_args4->start_indx = 32;
-    t_args4->end_indx = 42;
-    //t_args4->cryptPasswds = cryptPasswds;
-    t_args4->numUsers = numUsers;
-    t_args4->t_lock = lock;
-    
-    (void) pthread_create(&th4, NULL, brute_force_func, (void *)t_args4);
-    
-    struct thread_data *t_args5 = malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args5->fname = fname;
-    t_args5->pwlen = pwlen;
-    t_args5->passwds = passwds;
-    t_args5->start_indx = 42;
-    t_args5->end_indx = 52;
-    //t_args3->cryptPasswds = cryptPasswds;
-    t_args5->numUsers = numUsers;
-    t_args5->t_lock = lock;
-    
-    (void) pthread_create(&th5, NULL, brute_force_func, (void *)t_args5);
-    
-    //*******
-    
-    struct thread_data *t_args6 =  malloc(sizeof(struct thread_data));
-    printf("File Name: %s \n", fname);
-    t_args6->fname = fname;
-    t_args6->pwlen = pwlen;
-    t_args6->passwds = passwds;
-    t_args6->start_indx = 52;
-    t_args6->end_indx = 62;
-    //t_args4->cryptPasswds = cryptPasswds;
-    t_args6->numUsers = numUsers;
-    t_args6->t_lock = lock;
-    
-    (void) pthread_create(&th6, NULL, brute_force_func, (void *)t_args6);
-    
-    (void) pthread_join((pthread_t)th1, NULL);
-    (void) pthread_join((pthread_t)th2, NULL);
-    (void) pthread_join((pthread_t)th3, NULL);
-    (void) pthread_join((pthread_t)th4, NULL);
-    (void) pthread_join((pthread_t)th5, NULL);
-    (void) pthread_join((pthread_t)th6, NULL);
-    
-    
-    
-    
-    printf("B.2\n");
+        
+    for (int t = 0; t < THREADS; t++) {
+        //pthread_create(&threads[t], NULL, f, NULL);
+        //https://stackoverflow.com/questions/9914049/difficulty-passing-struct-through-pthread-create
+        (void) pthread_create(&threads[t], NULL, brute_force_func, (void *)&tArguments[t]);
+        
+    }
+
+
+    for (int t = 0; t < THREADS; t++) {
+        (void) pthread_join((pthread_t)threads[t], NULL);
+    }
 
 }
 
