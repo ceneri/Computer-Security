@@ -371,7 +371,7 @@ void *brute_force_func( void *arguments){
     char potentialPasswd[5];
     potentialPasswd[4] = '\0';
     
-    printf("D\n");
+    //printf("D\n");
     
     //Populate Combos
     //sem_wait(&args->t_lock);
@@ -385,7 +385,7 @@ void *brute_force_func( void *arguments){
     int fourCharIndices[] = {1,2,3,4};
     
     bool onlyThreeChars = (args->pwlen == 3);
-    printf("pwlen: %d\n", args->pwlen);
+    //printf("pwlen: %d\n", args->pwlen);
     
 
     for ( int k = args->start_indx; k < args->end_indx; k++){
@@ -425,7 +425,7 @@ void *brute_force_func( void *arguments){
                 for (int i = 0; i < args->numUsers; i++){
                     //sem_wait(&args->t_lock);
                     
-                    enc = crypt_r(potentialPasswd, c_salts[i], &data);
+                    enc = crypt_r(potentialPasswd, c_salts[i], (void *)&data);
                     //printf("EncryptedL %s\n", enc);
                     found = (strcmp(cryptPasswds[i], enc) == 0);
                     //sem_post(&args->t_lock);
@@ -436,7 +436,7 @@ void *brute_force_func( void *arguments){
                         //printf("Password: %s ", passwd);
                         //!!need to pass a global semaphore here
                         //https://www.geeksforgeeks.org/pthread_self-c-example/
-                        printf("Thread %d found a password: %s\n", pthread_self(), args->passwds[i]);
+                        printf("Thread %ld found a password: %s\n", pthread_self(), args->passwds[i]);
                         //printf("Password: %s \n", args->passwds[i]);
                         sem_post(&args->t_lock);
                         //printf("From File: %s \n", cryptPasswds[i]);
@@ -453,7 +453,7 @@ void *brute_force_func( void *arguments){
         
     }
 
-    
+    return NULL;
 }
 
 /*
@@ -462,44 +462,38 @@ void *brute_force_func( void *arguments){
  */
 void crackSpeedy(char *fname, int pwlen, char **passwds) { 
 
-    int THREADS = 6;
+    int THREADS = /*6;*/ 12;
     
-    char thread_indexes[] = {0,11,22,32,42,52,62};
+    char six_thread_indexes[] = {0,11,22,32,42,52,62};
+    char twelve_thread_indexes[] = {0,6,12,17,22,27,32,37,42,47,52,57,62};
     
-    sem_t lock;
-    sem_init(&lock, 0, 1);
+    sem_t write_lock;
+    sem_init(&write_lock, 0, 1);
     
     int numUsers = countLinesInFile(fname);
 
     //http://cs.umw.edu/~finlayson/class/fall16/cpsc425/notes/04-pthreads.html
     /* an array of threads */
-    pthread_t  th1, th2, th3, th4, th5, th6;
     pthread_t threads[THREADS];
-    
-    printf("A\n");
-    
-    struct thread_data tArguments[THREADS];
+    struct thread_data t_arguments[THREADS];
     
     int thread_i = 0;
     for (int a = 0; a < THREADS; a++) {
-        tArguments[a].fname = fname;
-        tArguments[a].pwlen = pwlen;
-        tArguments[a].passwds = passwds;
-        //t_args1->cryptPasswds = cryptPasswds;
-        tArguments[a].numUsers = numUsers;
-        tArguments[a].t_lock = lock;
+        t_arguments[a].fname = fname;
+        t_arguments[a].pwlen = pwlen;
+        t_arguments[a].passwds = passwds;
+        t_arguments[a].numUsers = numUsers;
+        t_arguments[a].t_lock = write_lock;
         
-        tArguments[a].start_indx = thread_indexes[thread_i];
-        tArguments[a].end_indx = thread_indexes[++thread_i];;
+        t_arguments[a].start_indx = twelve_thread_indexes[thread_i];
+        t_arguments[a].end_indx = twelve_thread_indexes[++thread_i];;
         
     }
-
-    printf("B\n");
         
     for (int t = 0; t < THREADS; t++) {
         //pthread_create(&threads[t], NULL, f, NULL);
         //https://stackoverflow.com/questions/9914049/difficulty-passing-struct-through-pthread-create
-        (void) pthread_create(&threads[t], NULL, brute_force_func, (void *)&tArguments[t]);
+        (void) pthread_create(&threads[t], NULL, brute_force_func, (void *)&t_arguments[t]);
         
     }
 
