@@ -1,4 +1,4 @@
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -12,6 +12,8 @@
 
 #include <sys/types.h>
 #include <signal.h>
+
+#include <time.h>
 
 
 char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
@@ -40,7 +42,6 @@ char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
  * https://stackoverflow.com/questions/12733105
  */
 int countLinesInFile(char *fname) {
-    printf("lolol\n");
     FILE *fp = fopen(fname, "r");
     int lines = -1;
     if (fp) {
@@ -321,11 +322,14 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
     //https://stackoverflow.com/questions/1352749/multiple-arguments-to-function-called-by-pthread-create
     //https://courses.engr.illinois.edu/cs241/fa2010/ppt/10-pthread-examples.pdf
     struct thread_data {
-        //int start_indx;
-        //int end_indx;
+        int start_indx;
+        int end_indx;
         char *fname;
-        //int pwlen;
-        //char **passwds;
+        int pwlen;
+        char **passwds;
+        char **cryptPasswds;
+        int numUsers;
+        sem_t t_lock;
         
     };
 
@@ -334,39 +338,32 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
 //https://stackoverflow.com/questions/1352749/multiple-arguments-to-function-called-by-pthread-create
 void *brute_force_func( void *arguments){
     
-    //!!beter to just use filename once but in any case put it in sempahore
+    //https://stackoverflow.com/questions/9335777/crypt-r-example
+    char *enc = malloc (sizeof(char)*14);
+    enc[13] = '\0';
+    struct crypt_data data[1] = {0};
     
-    //Initialize binary semaphore
-    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
-    //sem_t lock;
-    //sem_init(&lock, 0, 1);
-    
-    printf("C-1\n");
-    
+    //!!better to just use filename once but in any case put it in sempahore
     struct thread_data *args;
     args = (struct thread_data*) arguments;
 
-    printf("C\n");
-    
-    //numusers
-    printf("File Name: %s \n", args->fname);
-    int numUsers = countLinesInFile(args->fname);
-    
-    printf("numUsers = %d \n", numUsers);
-    
     //Get encrypted passwords
-    /*char **cryptPasswds;
-    cryptPasswds = getCryptPasswds(args->fname, numUsers);
+    sem_wait(&args->t_lock);
+    char **cryptPasswds;
+    cryptPasswds = getCryptPasswds(args->fname, args->numUsers);
+    sem_post(&args->t_lock);
     
-    for (int i = 0; i < numUsers; i++){
+    for (int i = 0; i < args->numUsers; i++){
         printf("Encrypted Password: %s \n", cryptPasswds[i]);
     }
     
     //Get salts
+    sem_wait(&args->t_lock);
     char **c_salts;
-    c_salts = getSalts(cryptPasswds, numUsers);
+    c_salts = getSalts(cryptPasswds, args->numUsers);
+    sem_post(&args->t_lock);
     
-    for (int i = 0; i < numUsers; i++){
+    for (int i = 0; i < args->numUsers; i++){
         printf("Salts: %s \n", c_salts[i]);
     }
     
@@ -377,28 +374,28 @@ void *brute_force_func( void *arguments){
     printf("D\n");
     
     //Populate Combos
-    sem_wait(&lock);
+    sem_wait(&args->t_lock);
     char **basicCombos;
     int numberOfTwoCharCombos = sizeof(alphabet) * sizeof(alphabet);
     basicCombos = populateTwoCharCombos(numberOfTwoCharCombos);
-    sem_post(&lock);
+    sem_post(&args->t_lock);
     
     //Indexes depending on password size
     int threeCharIndices[] = {0,1,2,3};
     int fourCharIndices[] = {1,2,3,4};
     
     bool onlyThreeChars = (args->pwlen == 3);
+    printf("pwlen: %d\n", args->pwlen);
     
-    printf("E\n");
 
     for ( int k = args->start_indx; k < args->end_indx; k++){
         
+       
         //First character
         potentialPasswd[0] = alphabet[k];
         //Default
         int *charIndices = fourCharIndices;
-        
-        printf("F\n");
+        printf("K: %c\n", potentialPasswd[0]);
         
         
         if ( onlyThreeChars ){
@@ -421,18 +418,28 @@ void *brute_force_func( void *arguments){
                 potentialPasswd[charIndices[2]] = basicCombos[i][1];
                 
                 potentialPasswd[charIndices[3]] = '\0';
-                printf("ComboSS: %s \n", potentialPasswd);
+                //printf("ComboSS: %s \n", potentialPasswd);
                 
                 //Check if password matches
                 bool found;
-                for (int i = 0; i < numUsers; i++){
-                    found = strcmp(cryptPasswds[i], crypt(potentialPasswd, c_salts[i])) == 0;
+                for (int i = 0; i < args->numUsers; i++){
+                    sem_wait(&args->t_lock);
+                    
+                    enc = crypt_r(potentialPasswd, c_salts[i], &data);
+                    //printf("EncryptedL %s\n", enc);
+                    found = (strcmp(cryptPasswds[i], enc) == 0);
+                    sem_post(&args->t_lock);
                     
                     if ( found ){
+                        sem_wait(&args->t_lock);
                         strcpy(args->passwds[i], potentialPasswd);
                         //printf("Password: %s ", passwd);
                         //!!need to pass a global semaphore here
-                        printf("Password: %s \n", args->passwds[i]);
+                        printf("Thread %d found a password: %s\n", pthread_self(), args->passwds[i]);
+                        //printf("Password: %s \n", args->passwds[i]);
+                        sem_post(&args->t_lock);
+                        //printf("From File: %s \n", cryptPasswds[i]);
+                        //printf("From Cryp: %s \n", crypt(potentialPasswd, c_salts[i]));
                         //return;
                     }
                 }
@@ -443,7 +450,7 @@ void *brute_force_func( void *arguments){
         
         
         
-    }*/
+    }
 
     
 }
@@ -453,9 +460,14 @@ void *brute_force_func( void *arguments){
  * in the old-style /etc/passwd format file at pathe FNAME.
  */
 void crackSpeedy(char *fname, int pwlen, char **passwds) { 
-    pthread_t  th1/*, th2*/;
+    pthread_t  th1, th2, th3, th4;
     
     //struct arg_struct t_args1;
+    
+    sem_t lock;
+    sem_init(&lock, 0, 1);
+    
+    int numUsers = countLinesInFile(fname);
     
     printf("A\n");
     
@@ -463,10 +475,14 @@ void crackSpeedy(char *fname, int pwlen, char **passwds) {
     struct thread_data *t_args1 = /*(struct thread_data*)*/ malloc(sizeof(struct thread_data));
     printf("File Name: %s \n", fname);
     t_args1->fname = fname;
-    /*t_args1->pwlen = pwlen;
+    t_args1->pwlen = pwlen;
     t_args1->passwds = passwds;
     t_args1->start_indx = 0;
-    t_args1->end_indx = 31;*/
+    t_args1->end_indx = 15;
+    //t_args1->cryptPasswds = cryptPasswds;
+    t_args1->numUsers = numUsers;
+    t_args1->t_lock = lock;
+    
     
     printf("B\n");
     
@@ -474,10 +490,53 @@ void crackSpeedy(char *fname, int pwlen, char **passwds) {
     
     printf("B.1\n");
     
-    //(void) pthread_create(&th2, NULL, brute_force_func, &sb2);
+    struct thread_data *t_args2 = malloc(sizeof(struct thread_data));
+    printf("File Name: %s \n", fname);
+    t_args2->fname = fname;
+    t_args2->pwlen = pwlen;
+    t_args2->passwds = passwds;
+    t_args2->start_indx = 15;
+    t_args2->end_indx = 30;
+    //t_args2->cryptPasswds = cryptPasswds;
+    t_args2->numUsers = numUsers;
+    t_args2->t_lock = lock;
+    
+    (void) pthread_create(&th2, NULL, brute_force_func, (void *)t_args2);
+    
+    //*******
+    
+    struct thread_data *t_args3 = malloc(sizeof(struct thread_data));
+    printf("File Name: %s \n", fname);
+    t_args3->fname = fname;
+    t_args3->pwlen = pwlen;
+    t_args3->passwds = passwds;
+    t_args3->start_indx = 30;
+    t_args3->end_indx = 46;
+    //t_args3->cryptPasswds = cryptPasswds;
+    t_args3->numUsers = numUsers;
+    t_args3->t_lock = lock;
+    
+    (void) pthread_create(&th3, NULL, brute_force_func, (void *)t_args3);
+    
+    //*******
+    
+    struct thread_data *t_args4 =  malloc(sizeof(struct thread_data));
+    printf("File Name: %s \n", fname);
+    t_args4->fname = fname;
+    t_args4->pwlen = pwlen;
+    t_args4->passwds = passwds;
+    t_args4->start_indx = 46;
+    t_args4->end_indx = 62;
+    //t_args4->cryptPasswds = cryptPasswds;
+    t_args4->numUsers = numUsers;
+    t_args4->t_lock = lock;
+    
+    (void) pthread_create(&th4, NULL, brute_force_func, (void *)t_args4);
     
     (void) pthread_join((pthread_t)th1, NULL);
-    //(void) pthread_join(th2, NULL);
+    (void) pthread_join((pthread_t)th2, NULL);
+    (void) pthread_join((pthread_t)th3, NULL);
+    (void) pthread_join((pthread_t)th4, NULL);
     
     printf("B.2\n");
 
