@@ -15,25 +15,13 @@
 
 #include <time.h>
 
+#include "crack.h"
+
 
 char alphabet[] = {48,49,50,51,52,53,54,55,56,57,
                     65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,
                     97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,
                     117,118,119,120,121,122};
-                    
-  
-  
-  
- //https://stackoverflow.com/questions/23436669/how-to-free-an-array-of-char-pointer
- /*void freeArrayElementsOnly(char** array, int count)
-{
-    int i;
-
-    for ( i = 0; array[i]; i++ )
-        free( array[i] );
-
-    //free( array );
-}*/
 
 /**
  * Returns the number of lines in the file at path
@@ -222,9 +210,11 @@ void crackSingle(char *username, char *cryptPasswd, int pwlen, char *passwd) {
  */
 void crackMultiple(char *fname, int pwlen, char **passwds) { 
 
+    crackSpeedy(fname, pwlen, passwds);
+    
     //Initialize binary semaphore
     //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
-    sem_t lock;
+    /*sem_t lock;
     sem_init(&lock, 0, 1);
     
     //numusers
@@ -314,7 +304,7 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
         }
     }
 
-    sem_post(&lock);
+    sem_post(&lock);*/
 
 } 
 
@@ -338,78 +328,52 @@ void crackMultiple(char *fname, int pwlen, char **passwds) {
 //https://stackoverflow.com/questions/1352749/multiple-arguments-to-function-called-by-pthread-create
 void *brute_force_func( void *arguments){
     
-    //https://stackoverflow.com/questions/9335777/crypt-r-example
-    char *enc = malloc (sizeof(char)*14);
-    enc[13] = '\0';
-    struct crypt_data data[1] = {0};
-    
-    //!!better to just use filename once but in any case put it in sempahore
     struct thread_data *args;
     args = (struct thread_data*) arguments;
-
-    //Get encrypted passwords
-    //sem_wait(&args->t_lock);
+    
+    sem_wait(&args->t_lock);
     char **cryptPasswds;
     cryptPasswds = getCryptPasswds(args->fname, args->numUsers);
-    //sem_post(&args->t_lock);
+    sem_post(&args->t_lock);
     
-    /*for (int i = 0; i < args->numUsers; i++){
-        printf("Encrypted Password: %s \n", cryptPasswds[i]);
-    }*/
-    
-    //Get salts
-    //sem_wait(&args->t_lock);
     char **c_salts;
     c_salts = getSalts(cryptPasswds, args->numUsers);
-    //sem_post(&args->t_lock);
     
-    /*for (int i = 0; i < args->numUsers; i++){
-        printf("Salts: %s \n", c_salts[i]);
-    }*/
-    
-    //Account for null at end of string
-    char potentialPasswd[5];
-    potentialPasswd[4] = '\0';
-    
-    //printf("D\n");
-    
-    //Populate Combos
-    //sem_wait(&args->t_lock);
     char **basicCombos;
     int numberOfTwoCharCombos = sizeof(alphabet) * sizeof(alphabet);
     basicCombos = populateTwoCharCombos(numberOfTwoCharCombos);
-    //sem_post(&args->t_lock);
     
     //Indexes depending on password size
     int threeCharIndices[] = {0,1,2,3};
     int fourCharIndices[] = {1,2,3,4};
     
-    bool onlyThreeChars = (args->pwlen == 3);
-    //printf("pwlen: %d\n", args->pwlen);
+    bool onlyThreeChars = (args->pwlen == 3); 
+
+    char potentialPasswd[5];
+    potentialPasswd[4] = '\0';    
     
+    //https://stackoverflow.com/questions/9335777/crypt-r-example
+    char *enc = malloc (sizeof(char)*14);
+    enc[13] = '\0';
+    struct crypt_data data[1] = {0};
 
     for ( int k = args->start_indx; k < args->end_indx; k++){
         
-       
-        //First character
+
         potentialPasswd[0] = alphabet[k];
-        //Default
         int *charIndices = fourCharIndices;
-        printf("K: %c\n", potentialPasswd[0]);
-        
+        //printf("K: %c\n", potentialPasswd[0]);
         
         if ( onlyThreeChars ){
             k = sizeof(alphabet);       //Main loop will only run once
             (*potentialPasswd)++;       //Remove first character from string
             
             charIndices = threeCharIndices;     //New indexes
-            
-            
         } 
     
         for (int j = 0; j < sizeof(alphabet); j++){
             
-            //Second character
+            //second character
             potentialPasswd[charIndices[0]] = alphabet[j];
         
             for (int i = 0; i < numberOfTwoCharCombos; i++){
@@ -418,30 +382,20 @@ void *brute_force_func( void *arguments){
                 potentialPasswd[charIndices[2]] = basicCombos[i][1];
                 
                 potentialPasswd[charIndices[3]] = '\0';
-                //printf("ComboSS: %s \n", potentialPasswd);
                 
-                //Check if password matches
                 bool found;
                 for (int i = 0; i < args->numUsers; i++){
-                    //sem_wait(&args->t_lock);
                     
                     enc = crypt_r(potentialPasswd, c_salts[i], (void *)&data);
-                    //printf("EncryptedL %s\n", enc);
                     found = (strcmp(cryptPasswds[i], enc) == 0);
-                    //sem_post(&args->t_lock);
                     
                     if ( found ){
                         sem_wait(&args->t_lock);
                         strcpy(args->passwds[i], potentialPasswd);
-                        //printf("Password: %s ", passwd);
-                        //!!need to pass a global semaphore here
                         //https://www.geeksforgeeks.org/pthread_self-c-example/
-                        printf("Thread %ld found a password: %s\n", pthread_self(), args->passwds[i]);
+                        //printf("Thread %ld found a password: %s\n", pthread_self(), args->passwds[i]);
                         //printf("Password: %s \n", args->passwds[i]);
                         sem_post(&args->t_lock);
-                        //printf("From File: %s \n", cryptPasswds[i]);
-                        //printf("From Cryp: %s \n", crypt(potentialPasswd, c_salts[i]));
-                        //return;
                     }
                 }
                 
@@ -464,16 +418,16 @@ void crackSpeedy(char *fname, int pwlen, char **passwds) {
 
     int THREADS = /*6;*/ 12;
     
-    char six_thread_indexes[] = {0,11,22,32,42,52,62};
+    //char six_thread_indexes[] = {0,11,22,32,42,52,62};
     char twelve_thread_indexes[] = {0,6,12,17,22,27,32,37,42,47,52,57,62};
     
+    //http://pages.cs.wisc.edu/~remzi/Classes/537/Fall2008/Notes/threads-semaphores.txt
     sem_t write_lock;
     sem_init(&write_lock, 0, 1);
     
     int numUsers = countLinesInFile(fname);
 
     //http://cs.umw.edu/~finlayson/class/fall16/cpsc425/notes/04-pthreads.html
-    /* an array of threads */
     pthread_t threads[THREADS];
     struct thread_data t_arguments[THREADS];
     
@@ -483,20 +437,15 @@ void crackSpeedy(char *fname, int pwlen, char **passwds) {
         t_arguments[a].pwlen = pwlen;
         t_arguments[a].passwds = passwds;
         t_arguments[a].numUsers = numUsers;
-        t_arguments[a].t_lock = write_lock;
-        
+        t_arguments[a].t_lock = write_lock; 
         t_arguments[a].start_indx = twelve_thread_indexes[thread_i];
-        t_arguments[a].end_indx = twelve_thread_indexes[++thread_i];;
-        
+        t_arguments[a].end_indx = twelve_thread_indexes[++thread_i];;        
     }
         
     for (int t = 0; t < THREADS; t++) {
-        //pthread_create(&threads[t], NULL, f, NULL);
         //https://stackoverflow.com/questions/9914049/difficulty-passing-struct-through-pthread-create
-        (void) pthread_create(&threads[t], NULL, brute_force_func, (void *)&t_arguments[t]);
-        
+        (void) pthread_create(&threads[t], NULL, brute_force_func, (void *)&t_arguments[t]);  
     }
-
 
     for (int t = 0; t < THREADS; t++) {
         (void) pthread_join((pthread_t)threads[t], NULL);
