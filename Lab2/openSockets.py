@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import socket
 import errno
 import requests
@@ -11,6 +13,17 @@ import time
 
 UNAME = 'ceneri' 
 IP_ADDRESS = '128.114.59.215'
+
+
+CURRENT_SKELETON_KEY = "passepartout"
+CURRENT_PERSONAL_PORT = 9631
+CURRENT_PORTS = [5028, 5071, 5103, 5123, 5264, 5292, 5338, 5357, 5461, 5541, 5743, 5769, 
+	5784, 5878, 5882, 5897, 5966, 6033, 6034, 6051, 6192, 6291, 6308, 6367, 6428, 6448, 
+	6489, 6585, 6610, 6616, 6652, 6762, 6842, 6942, 6978, 7011, 7029, 7041, 7068, 7138, 7328, 
+	7510, 7694, 7765, 7819, 7829, 7919, 7984, 7992, 8009, 8147, 8152, 8212, 8229, 8248, 8314, 
+	8392, 8441, 8487, 8500, 8511, 8648, 8659, 8665, 8751, 8757, 8763, 8831, 8849, 8914, 8933, 
+	8961, 8966, 9011, 9105, 9111, 9152, 9274, 9392, 9526, 9589, 9631, 9714, 9779, 9890, 9936, 
+	9999]
 
 
 skeletonPossibilities = ['JeanPassepartout', 'Jean_Passepartout', 'Jean-Passepartout',
@@ -42,9 +55,31 @@ skeletonPossibilities = ['JeanPassepartout', 'Jean_Passepartout', 'Jean-Passepar
 
 
 def find_open_ports():
+
+	MIN_PORT = 5000
+	MAX_PORT = 10000
+
 	openPorts = []
 
-	
+	for port in range(MIN_PORT, MAX_PORT):
+
+		try:
+
+			clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			clientsocket.connect((IP_ADDRESS, port))
+			isOpen = clientsocket.send('\n')
+			#data = clientsocket.recv(1024)
+
+			if isOpen == 1: 
+				openPorts.append(port)
+				#print "port", port
+
+		except socket.error, v:
+			errorcode = v[0]
+			#if errorcode == errno.ECONNREFUSED:
+				#print "Conecction refused"
+
+	return openPorts
 
 #https://docs.python.org/2.4/lib/telnet-example.html
 def get_skeleton_key(ports):
@@ -58,52 +93,67 @@ def get_skeleton_key(ports):
 		tnet = telnetlib.Telnet(HOST, RANDOM_PORT)
 		
 		try: 
-			print sKey
+			#print sKey
 			tnet.write(sKey + "\n")
 
 			tnet.read_until("Username: ")
 
 			tnet.write(UNAME + "\n")
 
-			print tnet.read_all()
-
 			return sKey
+
+			#print tnet.read_all()
 
 		except EOFError, v:
 
-			print "no"
+			continue
+			#print "no"
+
+
+def find_personal_server(ports, sKey):
+
+	HOST = IP_ADDRESS
+
+	for port in ports:
+
+		print "port", port
+
+		tnet = telnetlib.Telnet(HOST, port)
+		
+		try: 
+			#print sKey
+			tnet.write(sKey + "\n")
+
+			tnet.read_until("Username: ")
+
+			tnet.write(UNAME + "\n")
+
+			consoleRead = tnet.read_until("Password: ", 3)
+
+			if consoleRead == "Password: ":
+				return port
+			else: 
+				continue
+
+			#print tnet.read_all()
+
+		except EOFError, v:
+
+			continue
+			#print "no"
 
 def main():
 
-	openPorts = []
-
-	for i in range(5000, 10001):
-
-		try:
-			clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			clientsocket.connect((IP_ADDRESS, i))
-			isOpen = clientsocket.send('\n')
-			#data = clientsocket.recv(1024)
-
-			if isOpen == 1: 
-				openPorts.append(i)
-				print "port", i
-
-		except socket.error, v:
-			errorcode = v[0]
-			#if errorcode == errno.ECONNREFUSED:
-				#print "Conecction refused"
-
-	print "Total number of sockets is", len(openPorts)
+	openPorts = find_open_ports()
+	print "Total Number of Open Sockets", len(openPorts)
 	print openPorts
 
-	#for sKey in possible:
-	#https://docs.python.org/2.4/lib/telnet-example.html
+	skeletonKey = get_skeleton_key(openPorts)
+	print "Skeleton Key:", skeletonKey
+
+	personalPort = find_personal_server(openPorts, skeletonKey)
+	print "Personal Port:", personalPort
 
 
-
-	lol = get_skeleton_key(openPorts)
-
-	print "skeleton muthafucka", lol
-
-main()
+if __name__ == '__main__':
+	main()
