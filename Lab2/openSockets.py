@@ -9,36 +9,14 @@ import telnetlib
 
 import time
 
+IP_ADDRESS = '128.114.59.215'
+URL = 'http://128.114.59.215:'
+UNAME = 'ceneri'
+PWRD = ''
 
-"""possible = ['Jean Passepartout', 'JeanPassepartout', 'Jean_Passepartout', 
-'jean passepartout', 'jeanpassepartout', 'jean_passepartout',
-'jean Passepartout', 'jeanPassepartout', 'jean_Passepartout',
-'jean', 'Jean', 'JEAN', 'passepartout', 'Passepartout', 'PASSEPARTOUT',
-'JEAN PASSEPARTOUT', 'JEANPASSEPARTOUT', 'JEAN_PASSEPARTOUT',
-'Jules Vern', 'JulesVern', 'Jules_Vern', 
-'jules vern', 'julesvern', 'jules_vern',
-'jules Vern', 'julesVern', 'jules_Vern',
-'jules', 'Jules', 'JULES', 'Vern', 'vern', 'VERN',
-'JULES VERN', 'JULESVERN', 'JULES_VERN', 'Aouda', 'AOUDA',
-'Phileas Fogg', 'PhileasFogg', 'Phileas_Fogg',
-'phileas fogg', 'phileasfogg', 'phileas_fogg',
-'phileas Fogg', 'phileasFogg', 'phileas_fogg',
-'phileas', 'Phileas', 'PHILEAS', 'Fogg', 'fogg', 'FOGG',
-'PHILEAS FOGG', 'PHILEASFOGG', 'PHILEAS_FOGG',
-'Reform Club', 'ReformClub', 'Reform_Club'
-'reform club', 'reformclub', 'reform_club',
-'reform Club', 'reformClub', 'reform_Club',
-'reform', 'Reform', 'REFORM', 'Club', 'CLUB', 'club',
-'REFORM CLUB', 'REFORMCLUB', 'REFORM_CLUB',
-'Goes Everywhere', 'GoesEverywhere', 'Goes_Everywhere',
-'goes everywhere', 'goeseverywhere', 'goes_everywhere', 
-'goes Everywhere', 'goesEverywhere', 'goes_Everywhere'
-'GOES EVERYWHERE', 'GOESEVERYWHERE', 'GOES_EVERYWHERE'
-'PASSPORT', 'passport', 'Passport', 
-'passe-partout', 'PASSE-PARTOUT', 'passe_partout', 'PASSE_PARTOUT',
-]"""
+openPorts = []
 
-possible = ['JeanPassepartout', 'Jean_Passepartout', 'Jean-Passepartout',
+skeletonPossibilities = ['JeanPassepartout', 'Jean_Passepartout', 'Jean-Passepartout',
  'jeanpassepartout', 'jean_passepartout', 'jean-passepartout',
  'jeanPassepartout', 'jean_Passepartout', 'jean-Passepartout',
 'jean', 'Jean', 'JEAN', 'passepartout', 'Passepartout', 'PASSEPARTOUT',
@@ -65,12 +43,12 @@ possible = ['JeanPassepartout', 'Jean_Passepartout', 'Jean-Passepartout',
 'PASSPORT', 'passport', 'Passport'
 ]
 
-IP_ADDRESS = '128.114.59.215'
-URL = 'http://128.114.59.215:'
-UNAME = 'ceneri'
-PWRD = ''
 
-openPorts = []
+
+
+
+
+
 
 for i in range(5000, 10001):
 
@@ -79,66 +57,53 @@ for i in range(5000, 10001):
 		clientsocket.connect((IP_ADDRESS, i))
 		isOpen = clientsocket.send('\n')
 		#data = clientsocket.recv(1024)
-		#print "data", repr( data ), i 
 
-		if isOpen == 1 or isOpen == "1":
-			print "port", i
+		if isOpen == 1: 
 			openPorts.append(i)
+			print "port", i
 
 	except socket.error, v:
 		errorcode = v[0]
 		#if errorcode == errno.ECONNREFUSED:
 			#print "Conecction refused"
-	
-
-	#if isOpen == "1":
-	#	print "Open port:", i
-
 
 print "Total number of sockets is", len(openPorts)
 print openPorts
 
-#***********
-
-"""for port in openPorts:
-
-	port_str = str(port)
-
-	for skeleton in possible:
-		PWRD = skeleton
-
-		
-		#response = requests.get(URL + port_str + "/" + skeleton, auth=HTTPBasicAuth(UNAME, ''))
-		response = requests.get(URL + port_str + "/" + skeleton)
-
-		#if response.status_code == 201 or response.status_code == 202:
-		if response.status_code != 404:
-			print "Port", port, "response", response
-"""
- #requests.get('http://128.114.59.215:5028', auth=HTTPBasicAuth('ceneri',''))
-
-print "telnet"
-
 #for sKey in possible:
 #https://docs.python.org/2.4/lib/telnet-example.html
 
-sKey = 'passepartout'
+def get_skeleton_key():
 
-HOST = IP_ADDRESS
-#user = raw_input("Enter your remote account: ")
-#password = getpass.getpass()
+	for sKey in skeletonPossibilities:
 
-tn = telnetlib.Telnet(HOST, str(openPorts[0]))
+		#sKey = 'passepartout'
+		#sKey = 'passepatout'
+
+		HOST = IP_ADDRESS
+		#user = raw_input("Enter your remote account: ")
+		#password = getpass.getpass()
+
+		tn = telnetlib.Telnet(HOST, str(openPorts[5]))
 
 
-#tn.write("GET /" + sKey + " HTTP/1.0")
-print sKey
-tn.write(sKey + "\n")
-#print "GET /" + sKey + " HTTP/1.0"
-#print tn.read_all()
+		#tn.write("GET /" + sKey + " HTTP/1.0")
+		print sKey
 
-tn.read_until("Username: ")
-tn.write(UNAME + "\n")
-print tn.read_all()
+		try: 
+			tn.write(sKey + "\n")
+			#print "GET /" + sKey + " HTTP/1.0"
+			#print tn.read_all()
 
-time.sleep(.1) 
+			tn.read_until("Username: ")
+			tn.write(UNAME + "\n")
+			print tn.read_all()
+
+			return sKey
+
+		except EOFError, v:
+			print "no"
+
+lol = get_skeleton_key()
+
+print "skeleton muthafucka", lol
