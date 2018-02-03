@@ -3,19 +3,18 @@
 import socket
 import errno
 import requests
-from requests.auth import HTTPBasicAuth
-
 import getpass
 import sys
 import telnetlib
-
 import time
-
-import skeletonKey as sk
+import utils
+import re
+from requests.auth import HTTPBasicAuth
 
 UNAME = 'ceneri' 
 IP_ADDRESS = '128.114.59.215'
 
+PORTS_FILE = "openPorts.txt"
 IN_FILE = "skeletonKey.txt"
 OUT_FILE = "personalServer.txt"
 
@@ -31,44 +30,51 @@ def get_s_key():
 def main():
 
 	HOST = IP_ADDRESS
-		#!change to random poort
 
-	#openPorts = []
+	#Open output file
 	file = open(OUT_FILE, "w")
 
-	openPorts = sk.get_ports()
+	#Get ports from input file
+	openPorts = utils.get_file_input_as_list(PORTS_FILE)
 
+	#Get input Skeleton Key
 	skeletonKey = get_s_key()
 
+	#Test every port
 	for port in openPorts:
 
-		print "port", port
-
-		tnet = telnetlib.Telnet(HOST, port)
+		#Make connection
+		tnet = telnetlib.Telnet(HOST, port, timeout=2)
 		
 		try: 
-			#print skeletonKey
+
+			#Enter skeletonKey
 			tnet.write(skeletonKey + "\n")
 
 			tnet.read_until("Username: ")
 
 			tnet.write(UNAME + "\n")
 
-			consoleRead = tnet.read_until("Password: ", 3)
+			consoleRead = tnet.read_until("Password")
 
-			if consoleRead == "Password: ":
-				portStr = str(port)
-				file.write(portStr + '\n')
+			match = re.search("Pass", consoleRead)
+
+			#Port Found, write to output file
+			if match:
+				file.write(port + '\n')
 				break
+
+			#Try next Port	
 			else: 
 				continue
 
-			#print tnet.read_all()
-
 		except EOFError, v:
 
+			#Closed connection
 			continue
-			#print "no"
+
+		except:
+			continue
 
 	file.close()
 

