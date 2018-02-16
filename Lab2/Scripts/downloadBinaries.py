@@ -51,7 +51,6 @@ def download_file(filename, address, port, skey, passwd):
 
 
 
-
 def main():
 
     pPort = int(get_p_port())
@@ -61,7 +60,7 @@ def main():
     binary = "binary.bin"
     source = "source.c"
     #.cnf, .conf, .cfg, .cf or as well .ini
-    config = "config.cnf"
+    config = "config"
 
 
     #
