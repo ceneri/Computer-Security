@@ -9,6 +9,7 @@ FILE_NAME = 'key'
 
 OUT_FILE = 'obfuscated.txt'
 
+#https://docs.python.org/3/library/zipfile.html
 
 def main():
 
@@ -22,7 +23,6 @@ def main():
         myzip.setpassword(PWD)
         with myzip.open(FILE_NAME, 'r') as myfile:
             reading = myfile.read()
-            #print(reading)
 
             #Open output files
             file = open(OUT_FILE, "wb")
