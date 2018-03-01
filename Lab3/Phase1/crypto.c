@@ -4,6 +4,8 @@
  * the written permission of the copyright holder.
  *
  * https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+ *
+ * Compile any program including this file with -lssl -lcrypto
  */
 
 #include <openssl/conf.h>
