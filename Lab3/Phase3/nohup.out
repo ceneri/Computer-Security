@@ -1,0 +1,61 @@
+Local current start time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=8, tm_hour=21, tm_min=52, tm_sec=56, tm_wday=3, tm_yday=67, tm_isdst=0)
+This program was started at  21 : 52
+waiting for right time
+Sleeping for  6  minutes...
+Sleeping for  4  hours...
+Entering capture loop
+Stopped waiting at  1 : 58
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 0 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 1 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 2 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 3 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 4 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 5 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 6 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 7 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 8 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 9 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 10 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 11 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 12 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 13 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=1, tm_min=58, tm_sec=56, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 14 ] [currMin= 58 ] [currHour= 1 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=45, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 15 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=47, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 16 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=49, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 17 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=50, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 18 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=52, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 19 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=54, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 20 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=55, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 21 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=57, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 22 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=6, tm_sec=58, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 23 ] [currMin= 6 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=7, tm_sec=0, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 24 ] [currMin= 7 ] [currHour= 2 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=9, tm_hour=2, tm_min=17, tm_sec=7, tm_wday=4, tm_yday=68, tm_isdst=0)
+[fileNo= 25 ] [currMin= 17 ] [currHour= 2 ]
+Finished capturing at  2 : 17
+done

@@ -1,0 +1,206 @@
+Local current start time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=25, tm_sec=14, tm_wday=2, tm_yday=66, tm_isdst=0)
+This program was started at  19 : 25
+Entering capture loop
+Stopped waiting at  19 : 25
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=25, tm_sec=14, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 0 ] [currMin= 25 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=46, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 1 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=46, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 2 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=47, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 3 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=47, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 4 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=47, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 5 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=48, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 6 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=48, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 7 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=49, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 8 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=49, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 9 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=26, tm_sec=49, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 10 ] [currMin= 26 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=56, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 11 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=56, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 12 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=56, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 13 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=57, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 14 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=57, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 15 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=57, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 16 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=58, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 17 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=58, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 18 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=59, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 19 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=31, tm_sec=59, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 20 ] [currMin= 31 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=5, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 21 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=6, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 22 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=6, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 23 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=6, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 24 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=7, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 25 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=7, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 26 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=7, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 27 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=8, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 28 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=8, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 29 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=37, tm_sec=8, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 30 ] [currMin= 37 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=15, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 31 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=15, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 32 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=15, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 33 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=16, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 34 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=16, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 35 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=16, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 36 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=17, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 37 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=17, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 38 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=18, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 39 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=42, tm_sec=18, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 40 ] [currMin= 42 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=24, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 41 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=25, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 42 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=25, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 43 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=25, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 44 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=26, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 45 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=26, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 46 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=26, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 47 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=27, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 48 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=27, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 49 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=47, tm_sec=27, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 50 ] [currMin= 47 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=34, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 51 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=34, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 52 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=34, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 53 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=35, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 54 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=35, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 55 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=35, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 56 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=36, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 57 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=36, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 58 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=36, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 59 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=52, tm_sec=37, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 60 ] [currMin= 52 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=43, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 61 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=43, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 62 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=44, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 63 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=44, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 64 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=45, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 65 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=45, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 66 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=45, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 67 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=46, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 68 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=46, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 69 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=19, tm_min=57, tm_sec=46, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 70 ] [currMin= 57 ] [currHour= 19 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=53, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 71 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=53, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 72 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=53, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 73 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=54, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 74 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=54, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 75 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=54, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 76 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=55, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 77 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=55, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 78 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=56, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 79 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=2, tm_sec=56, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 80 ] [currMin= 2 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=2, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 81 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=3, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 82 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=3, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 83 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=3, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 84 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=4, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 85 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=4, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 86 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=4, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 87 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=5, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 88 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=5, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 89 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=8, tm_sec=5, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 90 ] [currMin= 8 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=12, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 91 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=12, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 92 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=12, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 93 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=13, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 94 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=13, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 95 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=14, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 96 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=14, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 97 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=14, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 98 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=15, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 99 ] [currMin= 13 ] [currHour= 20 ]
+Local current time : time.struct_time(tm_year=2018, tm_mon=3, tm_mday=7, tm_hour=20, tm_min=13, tm_sec=15, tm_wday=2, tm_yday=66, tm_isdst=0)
+[fileNo= 100 ] [currMin= 13 ] [currHour= 20 ]
